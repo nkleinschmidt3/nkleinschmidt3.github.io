@@ -241,28 +241,6 @@
             transform: scale(1.08);
         }
 
-        .play-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60px;
-            height: 60px;
-            background: rgba(44, 62, 80, 0.85);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            pointer-events: none;
-            transition: background 0.3s;
-        }
-
-        .video-item:hover .play-button {
-            background: rgba(230, 126, 34, 0.9);
-        }
-
         .modal-content.video-modal {
             max-width: 90%;
             max-height: 90%;
@@ -396,7 +374,7 @@
                 </p>
                 <div class="project-gallery">
                     <div class="gallery-item" onclick="openModal(this)">
-                        <img src= "https://github.com/nkleinschmidt3/nkleinschmidt3.github.io/blob/main/images/couch/couch1.jpg" alt="Motorized Couch">
+                        <img src="images/couch/couch1.jpg" alt="Motorized Couch">
                         <div class="gallery-caption">The completed motorized couch ready to cruise</div>
                     </div>
                     <div class="gallery-item" onclick="openModal(this)">
@@ -408,12 +386,11 @@
                         <div class="gallery-caption">Hand-fabricated steering mechanism</div>
                     </div>
                     <div class="gallery-item video-item" onclick="openModal(this)">
-                        <video class="gallery-video" muted loop playsinline>
+                        <video class="gallery-video" muted loop playsinline autoplay>
                             <source src="images/couch/couch-demo.mp4" type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
                         <div class="gallery-caption">Video: Motorized couch in action on campus</div>
-                        <div class="play-button">▶</div>
                     </div>
                 </div>
             </div>
@@ -529,24 +506,6 @@
     </footer>
 
     <script>
-        // Auto-play video on hover
-        document.addEventListener('DOMContentLoaded', function() {
-            const videoItems = document.querySelectorAll('.video-item');
-            
-            videoItems.forEach(item => {
-                const video = item.querySelector('.gallery-video');
-                
-                item.addEventListener('mouseenter', function() {
-                    video.play();
-                });
-                
-                item.addEventListener('mouseleave', function() {
-                    video.pause();
-                    video.currentTime = 0;
-                });
-            });
-        });
-
         function openModal(element) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
