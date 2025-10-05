@@ -1,98 +1,607 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta name="viewport" content="width=device-width" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="robots" content="noindex,nofollow" />
-	<title>WordPress &#8250; ReadMe</title>
-	<link rel="stylesheet" href="wp-admin/css/install.css?ver=20100228" type="text/css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nathan Kleinschmidt - Engineering Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                        url('images/header-background.jpg') center/cover;
+            color: white;
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 1.2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        nav li {
+            margin: 0 2rem;
+        }
+
+        nav a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            color: #e67e22;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            margin: 4rem 0;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            text-align: center;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .about {
+            background: white;
+            padding: 3rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .about p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-card {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            margin-bottom: 4rem;
+            overflow: hidden;
+        }
+
+        .project-card h3 {
+            color: #2c3e50;
+            padding: 2rem 2rem 1rem;
+            font-size: 2rem;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .project-description {
+            color: #666;
+            padding: 0 2rem 2rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+            background: #e0e0e0;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(44, 62, 80, 0.92);
+            color: white;
+            padding: 1.2rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .modal-caption {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            background: rgba(44, 62, 80, 0.9);
+            padding: 1.2rem 2.5rem;
+            text-align: center;
+            max-width: 80%;
+            font-size: 1.05rem;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: white;
+            font-size: 45px;
+            font-weight: 300;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #e67e22;
+        }
+
+        .gallery-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .video-item {
+            position: relative;
+        }
+
+        .video-item:hover .gallery-video {
+            transform: scale(1.08);
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(44, 62, 80, 0.85);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            pointer-events: none;
+            transition: background 0.3s;
+        }
+
+        .video-item:hover .play-button {
+            background: rgba(230, 126, 34, 0.9);
+        }
+
+        .modal-content.video-modal {
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .contact {
+            background: white;
+            padding: 3rem;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact p {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .contact-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1.05rem;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .contact-links a:hover {
+            color: #e67e22;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 3rem;
+            margin-top: 5rem;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            header {
+                padding: 5rem 2rem 3rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav li {
+                margin: 0.5rem 0;
+            }
+
+            .project-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .close {
+                right: 20px;
+                font-size: 35px;
+            }
+
+            .section h2 {
+                font-size: 2rem;
+            }
+
+            .project-card h3 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1 id="logo">
-	<a href="https://wordpress.org/"><img alt="WordPress" src="wp-admin/images/wordpress-logo.png" /></a>
-</h1>
-<p style="text-align: center">Semantic Personal Publishing Platform</p>
+    <header>
+        <h1>Nathan Kleinschmidt</h1>
+        <p>Materials Science & Engineering Student</p>
+    </header>
 
-<h2>First Things First</h2>
-<p>Welcome. WordPress is a very special project to me. Every developer and contributor adds something unique to the mix, and together we create something beautiful that I am proud to be a part of. Thousands of hours have gone into WordPress, and we are dedicated to making it better every day. Thank you for making it part of your world.</p>
-<p style="text-align: right">&#8212; Matt Mullenweg</p>
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
 
-<h2>Installation: Famous 5-minute install</h2>
-<ol>
-	<li>Unzip the package in an empty directory and upload everything.</li>
-	<li>Open <span class="file"><a href="wp-admin/install.php">wp-admin/install.php</a></span> in your browser. It will take you through the process to set up a <code>wp-config.php</code> file with your database connection details.
-		<ol>
-			<li>If for some reason this does not work, do not worry. It may not work on all web hosts. Open up <code>wp-config-sample.php</code> with a text editor like WordPad or similar and fill in your database connection details.</li>
-			<li>Save the file as <code>wp-config.php</code> and upload it.</li>
-			<li>Open <span class="file"><a href="wp-admin/install.php">wp-admin/install.php</a></span> in your browser.</li>
-		</ol>
-	</li>
-	<li>Once the configuration file is set up, the installer will set up the tables needed for your site. If there is an error, double check your <code>wp-config.php</code> file, and try again. If it fails again, please go to the <a href="https://wordpress.org/support/forums/">WordPress support forums</a> with as much data as you can gather.</li>
-	<li><strong>If you did not enter a password, note the password given to you.</strong> If you did not provide a username, it will be <code>admin</code>.</li>
-	<li>The installer should then send you to the <a href="wp-login.php">login page</a>. Sign in with the username and password you chose during the installation. If a password was generated for you, you can then click on &#8220;Profile&#8221; to change the password.</li>
-</ol>
+    <div class="container">
+        <section id="about" class="section">
+            <h2>About Me</h2>
+            <div class="about">
+                <p>
+                    I'm a Materials Science and Engineering student with a passion for building and creating. 
+                    When I'm not in the lab or classroom, you'll find me on the trails mountain biking, 
+                    exploring new terrain and pushing my limits.
+                </p>
+                <p>
+                    This portfolio showcases a variety of projects I've completed for both fun and school, 
+                    ranging from motorized vehicles to precision machining and experimental coatings. 
+                    Each project reflects my curiosity and hands-on approach to engineering challenges.
+                </p>
+            </div>
+        </section>
 
-<h2>Updating</h2>
-<h3>Using the Automatic Updater</h3>
-<ol>
-	<li>Open <span class="file"><a href="wp-admin/update-core.php">wp-admin/update-core.php</a></span> in your browser and follow the instructions.</li>
-	<li>You wanted more, perhaps? That&#8217;s it!</li>
-</ol>
+        <section id="projects" class="section">
+            <h2>Featured Work</h2>
 
-<h3>Updating Manually</h3>
-<ol>
-	<li>Before you update anything, make sure you have backup copies of any files you may have modified such as <code>index.php</code>.</li>
-	<li>Delete your old WordPress files, saving ones you&#8217;ve modified.</li>
-	<li>Upload the new files.</li>
-	<li>Point your browser to <span class="file"><a href="wp-admin/upgrade.php">/wp-admin/upgrade.php</a>.</span></li>
-</ol>
+            <div class="project-card">
+                <h3>Motorized Couch</h3>
+                <p class="project-description">
+                    Transformed a standard couch into a fully functional motorized vehicle capable of cruising 
+                    around campus. This project involved custom fabrication of the frame, integration of an 
+                    electric motor system, and development of a steering mechanism. The result is a comfortable, 
+                    mobile seating solution that turns heads and challenges conventional transportation design.
+                </p>
+                <div class="project-gallery">
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/couch/couch1.jpg" alt="Motorized Couch">
+                        <div class="gallery-caption">The completed motorized couch ready to cruise</div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/couch/couch2.jpg" alt="Motor Assembly">
+                        <div class="gallery-caption">Custom motor and drive train assembly</div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/couch/couch3.jpg" alt="Steering System">
+                        <div class="gallery-caption">Hand-fabricated steering mechanism</div>
+                    </div>
+                    <div class="gallery-item video-item" onclick="openModal(this)">
+                        <video class="gallery-video" muted loop playsinline>
+                            <source src="images/couch/couch-demo.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="gallery-caption">Video: Motorized couch in action on campus</div>
+                        <div class="play-button">▶</div>
+                    </div>
+                </div>
+            </div>
 
-<h2>Migrating from other systems</h2>
-<p>WordPress can <a href="https://developer.wordpress.org/advanced-administration/wordpress/import/">import from a number of systems</a>. First you need to get WordPress installed and working as described above, before using <a href="wp-admin/import.php">our import tools</a>.</p>
+            <div class="project-card">
+                <h3>Machined Bike Components</h3>
+                <p class="project-description">
+                    Designed and precision-machined custom components for my mountain bike using CNC milling 
+                    and manual lathe work. This project involved CAD modeling, material selection for optimal 
+                    strength-to-weight ratios, and careful machining to achieve tight tolerances. Components 
+                    include a custom stem, handlebar spacers, and seat post collar machined from aluminum alloy.
+                </p>
+                <div class="project-gallery">
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/bike-components/bike1.jpg" alt="Bike Components">
+                        <div class="gallery-caption">Custom machined stem and spacers</div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/bike-components/bike2.jpg" alt="Machining Process">
+                        <div class="gallery-caption">CNC milling operation in progress</div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/bike-components/bike3.jpg" alt="Finished Parts">
+                        <div class="gallery-caption">Anodized finished components installed on bike</div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/bike-components/bike4.jpg" alt="CAD Design">
+                        <div class="gallery-caption">Original CAD designs and specifications</div>
+                    </div>
+                </div>
+            </div>
 
-<h2>System Requirements</h2>
-<ul>
-	<li><a href="https://www.php.net/">PHP</a> version <strong>7.2.24</strong> or greater.</li>
-	<li><a href="https://www.mysql.com/">MySQL</a> version <strong>5.5.5</strong> or greater.</li>
-</ul>
+            <div class="project-card">
+                <h3>Mountain Bike Suspension Telemetry</h3>
+                <p class="project-description">
+                    Developed a wireless telemetry system to capture real-time suspension data during mountain 
+                    bike rides. The system uses linear potentiometers and accelerometers to measure fork and 
+                    shock travel, along with a microcontroller for data logging. This allows for detailed 
+                    analysis of suspension performance, helping optimize setup for different trail conditions 
+                    and riding styles.
+                </p>
+                <div class="project-gallery">
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/telemetry/telemetry1.jpg" alt="Telemetry System">
+                        <div class="gallery-caption">Sensor array mounted on fork and shock</div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/telemetry/telemetry2.jpg" alt="Electronics">
+                        <div class="gallery-caption">Custom PCB with microcontroller and sensors</div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/telemetry/telemetry3.jpg" alt="Data Analysis">
+                        <div class="gallery-caption">Real-time data visualization dashboard</div>
+                    </div>
+                </div>
+            </div>
 
-<h3>Recommendations</h3>
-<ul>
-	<li><a href="https://www.php.net/">PHP</a> version <strong>7.4</strong> or greater.</li>
-	<li><a href="https://www.mysql.com/">MySQL</a> version <strong>8.0</strong> or greater OR <a href="https://mariadb.org/">MariaDB</a> version <strong>10.5</strong> or greater.</li>
-	<li>The <a href="https://httpd.apache.org/docs/2.2/mod/mod_rewrite.html">mod_rewrite</a> Apache module.</li>
-	<li><a href="https://wordpress.org/news/2016/12/moving-toward-ssl/">HTTPS</a> support.</li>
-	<li>A link to <a href="https://wordpress.org/">wordpress.org</a> on your site.</li>
-</ul>
+            <div class="project-card">
+                <h3>Grip Enhancing Wrench Coating</h3>
+                <p class="project-description">
+                    Developed and tested an experimental coating to improve grip and ergonomics of hand tools. 
+                    The coating combines polymer materials with micro-textured particles to increase friction 
+                    while maintaining durability. This materials science project involved synthesis of various 
+                    formulations, application techniques, and comprehensive testing for wear resistance, 
+                    chemical compatibility, and grip performance under different conditions.
+                </p>
+                <div class="project-gallery">
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/wrench-coating/wrench1.jpg" alt="Coated Tools">
+                        <div class="gallery-caption">Wrenches with applied grip coating</div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/wrench-coating/wrench2.jpg" alt="Testing">
+                        <div class="gallery-caption">Grip force testing apparatus</div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/wrench-coating/wrench3.jpg" alt="Microscopy">
+                        <div class="gallery-caption">SEM image showing coating microstructure</div>
+                    </div>
+                    <div class="gallery-item" onclick="openModal(this)">
+                        <img src="images/wrench-coating/wrench4.jpg" alt="Results">
+                        <div class="gallery-caption">Performance comparison data across formulations</div>
+                    </div>
+                </div>
+            </div>
 
-<h2>Online Resources</h2>
-<p>If you have any questions that are not addressed in this document, please take advantage of WordPress&#8217; numerous online resources:</p>
-<dl>
-	<dt><a href="https://wordpress.org/documentation/">HelpHub</a></dt>
-		<dd>HelpHub is the encyclopedia of all things WordPress. It is the most comprehensive source of information for WordPress available.</dd>
-	<dt><a href="https://wordpress.org/news/">The WordPress Blog</a></dt>
-		<dd>This is where you&#8217;ll find the latest updates and news related to WordPress. Recent WordPress news appears in your administrative dashboard by default.</dd>
-	<dt><a href="https://planet.wordpress.org/">WordPress Planet</a></dt>
-		<dd>The WordPress Planet is a news aggregator that brings together posts from WordPress blogs around the web.</dd>
-	<dt><a href="https://wordpress.org/support/forums/">WordPress Support Forums</a></dt>
-		<dd>If you&#8217;ve looked everywhere and still cannot find an answer, the support forums are very active and have a large community ready to help. To help them help you be sure to use a descriptive thread title and describe your question in as much detail as possible.</dd>
-	<dt><a href="https://make.wordpress.org/support/handbook/appendix/other-support-locations/introduction-to-irc/">WordPress <abbr>IRC</abbr> (Internet Relay Chat) Channel</a></dt>
-		<dd>There is an online chat channel that is used for discussion among people who use WordPress and occasionally support topics. The above wiki page should point you in the right direction. (<a href="https://web.libera.chat/#wordpress">irc.libera.chat #wordpress</a>)</dd>
-</dl>
+        </section>
 
-<h2>Final Notes</h2>
-<ul>
-	<li>If you have any suggestions, ideas, or comments, or if you (gasp!) found a bug, join us in the <a href="https://wordpress.org/support/forums/">Support Forums</a>.</li>
-	<li>WordPress has a robust plugin <abbr>API</abbr> (Application Programming Interface) that makes extending the code easy. If you are a developer interested in utilizing this, see the <a href="https://developer.wordpress.org/plugins/">Plugin Developer Handbook</a>. You shouldn&#8217;t modify any of the core code.</li>
-</ul>
+        <section id="contact" class="section">
+            <h2>Get In Touch</h2>
+            <div class="contact">
+                <p>
+                    Interested in collaborating or learning more about my projects? 
+                    Feel free to reach out!
+                </p>
+                <div class="contact-links">
+                    <a href="mailto:nathan@example.com">Email</a>
+                    <a href="https://github.com/nathank" target="_blank">GitHub</a>
+                    <a href="https://linkedin.com/in/nathankleinschmidt" target="_blank">LinkedIn</a>
+                </div>
+            </div>
+        </section>
+    </div>
 
-<h2>Share the Love</h2>
-<p>WordPress has no multi-million dollar marketing campaign or celebrity sponsors, but we do have something even better&#8212;you. If you enjoy WordPress please consider telling a friend, setting it up for someone less knowledgeable than yourself, or writing the author of a media article that overlooks us.</p>
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
 
-<p>WordPress is the official continuation of b2/caf&#233;log, which came from Michel V. The work has been continued by the <a href="https://wordpress.org/about/">WordPress developers</a>. If you would like to support WordPress, please consider <a href="https://wordpress.org/donate/">donating</a>.</p>
+    <footer>
+        <p>&copy; 2025 Nathan Kleinschmidt. All rights reserved.</p>
+    </footer>
 
-<h2>License</h2>
-<p>WordPress is free software, and is released under the terms of the <abbr>GPL</abbr> (GNU General Public License) version 2 or (at your option) any later version. See <a href="license.txt">license.txt</a>.</p>
+    <script>
+        // Auto-play video on hover
+        document.addEventListener('DOMContentLoaded', function() {
+            const videoItems = document.querySelectorAll('.video-item');
+            
+            videoItems.forEach(item => {
+                const video = item.querySelector('.gallery-video');
+                
+                item.addEventListener('mouseenter', function() {
+                    video.play();
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    video.pause();
+                    video.currentTime = 0;
+                });
+            });
+        });
 
+        function openModal(element) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            
+            const img = element.querySelector('img');
+            const video = element.querySelector('.gallery-video');
+            const caption = element.querySelector('.gallery-caption');
+            
+            modal.classList.add('active');
+            
+            // Check if it's a video or image
+            if (video) {
+                // Create video element for modal
+                const videoClone = video.cloneNode(true);
+                videoClone.classList.add('video-modal');
+                videoClone.classList.add('modal-content');
+                videoClone.controls = true;
+                videoClone.autoplay = true;
+                videoClone.muted = false;
+                
+                // Replace image with video
+                modalImg.style.display = 'none';
+                const existingVideo = modal.querySelector('video');
+                if (existingVideo) existingVideo.remove();
+                
+                modal.querySelector('.close').insertAdjacentElement('afterend', videoClone);
+            } else {
+                // Show image as normal
+                const existingVideo = modal.querySelector('video');
+                if (existingVideo) existingVideo.remove();
+                modalImg.style.display = 'block';
+                modalImg.src = img.src;
+            }
+            
+            modalCaption.textContent = caption.textContent;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            const video = modal.querySelector('video');
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+            }
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
 </body>
 </html>
